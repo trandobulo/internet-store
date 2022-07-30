@@ -1,6 +1,6 @@
 import React from "react";
 import gql from "graphql-tag";
-import client from "./index";
+import client from "./ApolloClient";
 
 class Navigations extends React.Component {
   constructor(props) {
@@ -34,7 +34,16 @@ class Navigations extends React.Component {
       <div className="nav">
         {this.state.categories.map((category, index) => {
           return (
-            <div className="navButton" key={index} onClick={this.props.click}>
+            <div
+              className={
+                this.props.activeCategory === category.name
+                  ? "activeNavButton"
+                  : "navButton"
+              }
+              key={index}
+              data-category={category.name}
+              onClick={this.props.onclick}
+            >
               <label>{category.name.toUpperCase()}</label>
             </div>
           );

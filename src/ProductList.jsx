@@ -1,20 +1,24 @@
 import React from "react";
-import client from "./index";
+import client from "./ApolloClient";
 import gql from "graphql-tag";
+import ProductCard from "./ProductCard";
 
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { products: [] };
+    this.currencyFilter = this.currencyFilter.bind(this);
   }
 
-  GET_PRODUCTS = (activeCategory) => {
+  getProducts = (activeCategory) => {
     client
       .query({
         query: gql`
           query ($category: String!) {
             category(input: { title: $category }) {
               products {
+                id
+                brand
                 gallery
                 name
                 prices {
@@ -38,41 +42,30 @@ class ProductList extends React.Component {
   };
 
   componentDidMount() {
-    this.GET_PRODUCTS(this.props.activeCategory);
-    console.log("mount");
+    this.getProducts(this.props.activeCategory);
   }
 
   componentDidUpdate(prevProps) {
-    // Популярный пример (не забудьте сравнить пропсы):
     if (this.props.activeCategory !== prevProps.activeCategory) {
-      this.GET_PRODUCTS(this.props.activeCategory);
+      this.getProducts(this.props.activeCategory);
     }
   }
 
+  currencyFilter = (item) =>
+    this.props.currentCurrency === item.currency.symbol;
+
   render() {
-    console.log(this.props.activeCategory);
     return (
       <div className="productList">
         {this.state.products.map((product, index) => {
           return (
-            <div className="productCard" key={index}>
-              <div className="productCardImg">
-                {product.inStock && (
-                  <div className="outOfStockLayer">OUT OF STOCK</div>
-                )}
-                <img src={product.gallery} alt={product.name}></img>
-              </div>
-              <div className="productName">{product.name}</div>
-              <div className="productPrice">
-                {this.props.currentCurrency}
-                {
-                  product.prices.filter(
-                    (item) =>
-                      this.props.currentCurrency === item.currency.symbol
-                  )[0].amount
-                }
-              </div>
-            </div>
+            <ProductCard
+              product={product}
+              key={index}
+              currentCurrency={this.props.currentCurrency}
+              currencyFilter={this.currencyFilter}
+              productCardOnClick={this.props.productCardOnClick}
+            />
           );
         })}
       </div>

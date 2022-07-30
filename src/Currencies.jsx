@@ -1,23 +1,23 @@
 import React from "react";
 import gql from "graphql-tag";
-import client from "./index";
+import client from "./ApolloClient";
 
 class Currencies extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      listOpen: false,
+      islistOpen: false,
+      currencies: [],
     };
 
-    this.currencies = [];
-
-    this.wrapperRef = React.createRef(); // don't fully understood how it work
+    this.wrapperRef = React.createRef();
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.islistOpen = this.islistOpen.bind(this);
   }
 
-  GET_CURRENCIES = async () =>
-    await client
+  getCurrencies = () =>
+    client
       .query({
         query: gql`
           query {
@@ -30,17 +30,21 @@ class Currencies extends React.Component {
       })
 
       .then((result) => {
-        this.currencies = result; // isn't it be better to write it into the state ?
+        this.setState({ currencies: result });
       });
 
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-      this.setState({ listOpen: false });
+      this.setState({ islistOpen: false });
     }
   }
 
+  islistOpen() {
+    this.setState({ islistOpen: !this.state.islistOpen });
+  }
+
   componentDidMount() {
-    this.GET_CURRENCIES(); // how to be sure that element will fetch data before open list
+    this.getCurrencies(); // how to be sure that element will fetch data before open list
     document.addEventListener("click", this.handleClickOutside);
   }
 
@@ -54,24 +58,39 @@ class Currencies extends React.Component {
         <div
           className="currency"
           ref={this.wrapperRef}
-          onClick={() => {
-            this.setState({ listOpen: !this.state.listOpen });
-          }}
+          onClick={this.islistOpen}
         >
           {this.props.activeCurrency}
+          <svg
+            className={this.state.islistOpen ? "notRotated" : "rotated"}
+            id="currency"
+            width="8"
+            height="4"
+            viewBox="0 0 8 4"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 3.5L4 0.5L7 3.5"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </div>
-        {this.state.listOpen && (
+        {this.state.islistOpen && (
           <div className="currenciesList">
-            {this.currencies.data.currencies.map((currency, index) => {
-              return (
-                <div key={index} onClick={this.props.click}>
-                  <div className="currenciesListItem">
-                    <span>{currency.symbol}</span>
-                    <span>{currency.label}</span>
-                  </div>
-                </div>
-              );
-            })}
+            {this.state.currencies.data.currencies.map((currency, index) => (
+              <div
+                className="currenciesListItem"
+                key={index}
+                onClick={this.props.onclick}
+                data-symbol={currency.symbol}
+              >
+                <span>{currency.symbol}</span>
+                <span>{currency.label}</span>
+              </div>
+            ))}
           </div>
         )}
       </div>
