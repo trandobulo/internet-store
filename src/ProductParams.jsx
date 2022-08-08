@@ -1,22 +1,7 @@
 import React from "react";
 
 class ProductParams extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    prevState === this.state &&
-      this.props.activeProductParams !== {} &&
-      this.setState(this.props.activeProductParams);
-  }
-
   render() {
-    const currencyFilter = (item) =>
-      this.props.currency === item.currency.symbol;
-
     return (
       <div className="productParams">
         <h3 className="brand">{this.props.product.brand}</h3>
@@ -31,7 +16,8 @@ class ProductParams extends React.Component {
                     <div
                       onClick={this.props.chooseParam}
                       className={
-                        this.state[attribute.name] === item.value
+                        this.props.activeProductParams[attribute.name] ===
+                        item.value
                           ? "param activeParam"
                           : "param"
                       }
@@ -46,7 +32,8 @@ class ProductParams extends React.Component {
                     <div
                       onClick={this.props.chooseParam}
                       className={
-                        this.state[attribute.name] === item.value
+                        this.props.activeProductParams[attribute.name] ===
+                        item.value
                           ? "paramSwatch activeParamSwatch"
                           : "paramSwatch"
                       }
@@ -70,10 +57,7 @@ class ProductParams extends React.Component {
           PRICE:
           <div className="priceParam">
             {this.props.currency}
-            {this.props.product.prices && // is that's most suitable way of checking?
-              this.props.product.prices[
-                this.props.product.prices.findIndex(currencyFilter)
-              ].amount}
+            {this.props.getPrice(this.props.product, this.props.currency)}
           </div>
         </label>
         <button

@@ -1,11 +1,12 @@
 import React from "react";
 import gql from "graphql-tag";
 import client from "./ApolloClient";
+import { Link, withRouter } from "react-router-dom";
 
 class Navigations extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { categories: [] };
+    this.state = { categories: [], activeCategory: "all" };
   }
 
   GET_CATEGORIES = () =>
@@ -34,18 +35,21 @@ class Navigations extends React.Component {
       <div className="nav">
         {this.state.categories.map((category, index) => {
           return (
-            <div
-              className={
-                this.props.activeCategory === category.name
-                  ? "activeNavButton"
-                  : "navButton"
-              }
-              key={index}
-              data-category={category.name}
-              onClick={this.props.onclick}
-            >
-              <label>{category.name.toUpperCase()}</label>
-            </div>
+            <Link to={`/categories/${category.name}`} key={index}>
+              <div
+                className={
+                  this.props.location.pathname
+                    .split("/")
+                    .find((item) => item === category.name)
+                    ? "activeNavButton"
+                    : "navButton"
+                }
+                data-category={category.name}
+                onClick={this.props.onclick}
+              >
+                <label>{category.name.toUpperCase()}</label>
+              </div>
+            </Link>
           );
         })}
       </div>
@@ -53,4 +57,4 @@ class Navigations extends React.Component {
   }
 }
 
-export default Navigations;
+export default withRouter(Navigations);

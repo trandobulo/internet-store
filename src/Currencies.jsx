@@ -73,8 +73,8 @@ class Currencies extends React.Component {
             <path
               d="M1 3.5L4 0.5L7 3.5"
               stroke="black"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>

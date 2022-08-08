@@ -6,6 +6,7 @@ import ProductCard from "./ProductCard";
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = { products: [] };
     this.currencyFilter = this.currencyFilter.bind(this);
   }
@@ -21,6 +22,16 @@ class ProductList extends React.Component {
                 brand
                 gallery
                 name
+                attributes {
+                  id
+                  name
+                  type
+                  items {
+                    value
+                    id
+                    displayValue
+                  }
+                }
                 prices {
                   currency {
                     symbol
@@ -60,11 +71,11 @@ class ProductList extends React.Component {
         {this.state.products.map((product, index) => {
           return (
             <ProductCard
-              product={product}
               key={index}
+              product={product}
               currentCurrency={this.props.currentCurrency}
               currencyFilter={this.currencyFilter}
-              productCardOnClick={this.props.productCardOnClick}
+              addToCart={this.props.addToCart}
             />
           );
         })}
