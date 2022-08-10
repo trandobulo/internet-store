@@ -1,6 +1,9 @@
 import React from "react";
 
 class ProductParams extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div className="productParams">

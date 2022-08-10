@@ -1,6 +1,6 @@
 import React from "react";
 import gql from "graphql-tag";
-import client from "./ApolloClient";
+import client from "./apolloClient";
 import { Link, withRouter } from "react-router-dom";
 
 class Navigations extends React.Component {
@@ -9,7 +9,7 @@ class Navigations extends React.Component {
     this.state = { categories: [], activeCategory: "all" };
   }
 
-  GET_CATEGORIES = () =>
+  getCategories = () =>
     client
       .query({
         query: gql`
@@ -27,7 +27,7 @@ class Navigations extends React.Component {
       );
 
   componentDidMount() {
-    this.GET_CATEGORIES();
+    this.getCategories();
   }
 
   render() {
@@ -47,7 +47,7 @@ class Navigations extends React.Component {
                 data-category={category.name}
                 onClick={this.props.onclick}
               >
-                <label>{category.name.toUpperCase()}</label>
+                <label>{category.name}</label>
               </div>
             </Link>
           );

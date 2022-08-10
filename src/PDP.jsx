@@ -1,8 +1,9 @@
 import React from "react";
 import ProductParams from "./ProductParams";
-import client from "./ApolloClient";
+import client from "./apolloClient";
 import { gql } from "@apollo/client";
 import { withRouter } from "react-router-dom";
+import setDefaultProductParams from "./utils/setDefaultProductParams";
 
 class PDP extends React.Component {
   constructor(props) {
@@ -56,17 +57,13 @@ class PDP extends React.Component {
       })
 
       .then((result) => {
-        this.setState({ activeProduct: result.data.product });
-        this.firstState(result.data.product.attributes);
+        this.setState({
+          activeProduct: result.data.product,
+          activeProductParams: setDefaultProductParams(
+            result.data.product.attributes
+          ),
+        });
       });
-  };
-
-  firstState = (attributes) => {
-    let obj = {};
-    for (let attribute of attributes) {
-      obj[attribute.name] = attribute.items[0].value;
-    }
-    this.setState({ activeProductParams: obj });
   };
 
   handleChooseParam(e) {
@@ -112,7 +109,7 @@ class PDP extends React.Component {
           <div className="gallery">
             <div className="galleryItems" onClick={this.handleGalleryClick}>
               {this.state.activeProduct.gallery.map((item, index) => (
-                <div className="galleryThumbNail" key={index}>
+                <div className="gallerythumbnail" key={index}>
                   <img
                     src={item}
                     alt={this.state.activeProduct.name}

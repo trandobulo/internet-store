@@ -1,4 +1,6 @@
 import React from "react";
+import { Link, withRouter } from "react-router-dom";
+import arrowIcon from "./arrowIcon";
 
 class CartItemGallery extends React.Component {
   constructor(props) {
@@ -19,47 +21,37 @@ class CartItemGallery extends React.Component {
   }
 
   render() {
-    const row = (
-      <svg
-        width="8"
-        height="14"
-        viewBox="0 -0.5 8 14"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0.75 1.06808L6.375 6.68711L0.75 12.3062"
-          stroke="white"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-
     return (
       <>
-        <img
-          src={this.props.images[this.state.index]}
-          alt={"product foto"}
-        ></img>
-        <div
-          className="cartItemGalleryBtn prev"
-          data-direction="prev"
-          onClick={this.handleGalleryClick}
-        >
-          {row}
-        </div>
-        <div
-          className="cartItemGalleryBtn next"
-          data-direction="next"
-          onClick={this.handleGalleryClick}
-        >
-          {row}
-        </div>
+        <Link to={`/categories/all/products/${this.props.id}`}>
+          <div className="cartItemGalleryImg">
+            <img
+              src={this.props.images[this.state.index]}
+              alt={this.props.id}
+            ></img>
+          </div>
+        </Link>
+        {this.props.images.length > 1 && (
+          <>
+            <div
+              className="cartItemGalleryBtn prev"
+              data-direction="prev"
+              onClick={this.handleGalleryClick}
+            >
+              {arrowIcon()}
+            </div>
+            <div
+              className="cartItemGalleryBtn next"
+              data-direction="next"
+              onClick={this.handleGalleryClick}
+            >
+              {arrowIcon()}
+            </div>
+          </>
+        )}
       </>
     );
   }
 }
 
-export default CartItemGallery;
+export default withRouter(CartItemGallery);

@@ -1,7 +1,6 @@
 import React from "react";
 import PLP from "./PLP";
 import Navigations from "./Navigations";
-import logo from "./content/brand-icon.png";
 import Currencies from "./Currencies";
 import PDP from "./PDP";
 import DropCart from "./DropCart";
@@ -31,11 +30,11 @@ class App extends React.Component {
   getPrice(product, currency) {
     const currencyFilter = (item) => currency === item.currency.symbol;
 
-    return (
-      product.prices &&
+    return product.prices &&
       currency &&
-      product.prices[product.prices.findIndex(currencyFilter)].amount
-    );
+      product.prices.findIndex(currencyFilter) >= 0
+      ? product.prices[product.prices.findIndex(currencyFilter)].amount
+      : "N/A";
   }
 
   handleAddToCart(productInfo) {
@@ -83,12 +82,20 @@ class App extends React.Component {
 
   componentDidMount() {
     const storage = JSON.parse(window.localStorage.getItem("cart"));
+    const currency = JSON.parse(window.localStorage.getItem("currency"));
 
-    this.setState({ cart: storage === null ? [] : storage });
+    this.setState({
+      cart: storage === null ? [] : storage,
+      activeCurrency: currency === null ? "$" : currency,
+    });
   }
 
   componentDidUpdate() {
     window.localStorage.setItem("cart", JSON.stringify(this.state.cart));
+    window.localStorage.setItem(
+      "currency",
+      JSON.stringify(this.state.activeCurrency)
+    );
   }
 
   render() {
@@ -96,7 +103,11 @@ class App extends React.Component {
       <>
         <div className="header">
           <Navigations onclick={this.handleNavClick} />
-          <img className="navLogo" src={logo} alt="brand logo" />
+          <img
+            className="navLogo"
+            src={`${process.env.PUBLIC_URL}/content/brand-icon.png`}
+            alt="brand logo"
+          />
           <div className="actions">
             <Currencies
               onclick={this.switchCurrency}

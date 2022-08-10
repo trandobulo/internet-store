@@ -1,19 +1,20 @@
 import React from "react";
 import gql from "graphql-tag";
-import client from "./ApolloClient";
+import client from "./apolloClient";
+import currencyRow from "./currencyRow";
 
 class Currencies extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      islistOpen: false,
+      isListOpen: false,
       currencies: [],
     };
 
     this.wrapperRef = React.createRef();
     this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.islistOpen = this.islistOpen.bind(this);
+    this.isListOpen = this.isListOpen.bind(this);
   }
 
   getCurrencies = () =>
@@ -35,16 +36,16 @@ class Currencies extends React.Component {
 
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-      this.setState({ islistOpen: false });
+      this.setState({ isListOpen: false });
     }
   }
 
-  islistOpen() {
-    this.setState({ islistOpen: !this.state.islistOpen });
+  isListOpen() {
+    this.setState({ isListOpen: !this.state.isListOpen });
   }
 
   componentDidMount() {
-    this.getCurrencies(); // how to be sure that element will fetch data before open list
+    this.getCurrencies();
     document.addEventListener("click", this.handleClickOutside);
   }
 
@@ -58,27 +59,12 @@ class Currencies extends React.Component {
         <div
           className="currency"
           ref={this.wrapperRef}
-          onClick={this.islistOpen}
+          onClick={this.isListOpen}
         >
           {this.props.activeCurrency}
-          <svg
-            className={this.state.islistOpen ? "notRotated" : "rotated"}
-            id="currency"
-            width="8"
-            height="4"
-            viewBox="0 0 8 4"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1 3.5L4 0.5L7 3.5"
-              stroke="black"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          {currencyRow(this.state.isListOpen)}
         </div>
-        {this.state.islistOpen && (
+        {this.state.isListOpen && (
           <div className="currenciesList">
             {this.state.currencies.data.currencies.map((currency, index) => (
               <div
@@ -87,8 +73,7 @@ class Currencies extends React.Component {
                 onClick={this.props.onclick}
                 data-symbol={currency.symbol}
               >
-                <span>{currency.symbol}</span>
-                <span>{currency.label}</span>
+                {`${currency.symbol} ${currency.label}`}
               </div>
             ))}
           </div>

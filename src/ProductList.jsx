@@ -1,5 +1,5 @@
 import React from "react";
-import client from "./ApolloClient";
+import client from "./apolloClient";
 import gql from "graphql-tag";
 import ProductCard from "./ProductCard";
 

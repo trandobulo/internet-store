@@ -1,9 +1,10 @@
 import React from "react";
-import client from "./ApolloClient";
+import client from "./apolloClient";
 import { gql } from "@apollo/client";
 import CartItemParams from "./CartItemParams";
 import CartItemGallery from "./CartItemGallery";
 import { Link, withRouter } from "react-router-dom";
+import getTotalPurchasesAmount from "./utils/getTotalPurchasesAmount";
 
 class CartItems extends React.Component {
   constructor(props) {
@@ -59,9 +60,21 @@ class CartItems extends React.Component {
         product: result.data.product,
       }));
 
-      this.setState({ purchases: arr, totalPrice: this.totalPrice(arr) });
+      this.setState({ purchases: arr });
     });
   };
+
+  changeQuantityState() {
+    const arr = [];
+
+    this.state.purchases.forEach((item) => arr.push({ ...item }));
+
+    arr.forEach((purchase, index) => {
+      if (purchase) purchase.amount = this.props.purchases[index].amount;
+    });
+
+    this.setState({ purchases: arr });
+  }
 
   totalPrice(purchases) {
     return (
@@ -84,16 +97,22 @@ class CartItems extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    prevProps !== this.props && this.getProductsInfo(this.props.purchases); // do fetching everytime when change amount of purchase. Is it norm ?
+    if (prevProps.purchases.length !== this.props.purchases.length) {
+      this.getProductsInfo(this.props.purchases);
+    } else if (
+      getTotalPurchasesAmount(prevProps.purchases) !==
+      getTotalPurchasesAmount(this.state.purchases)
+    ) {
+      this.changeQuantityState();
+    }
   }
 
   render() {
-    return (
-      this.state.purchases &&
-      this.state.purchases.map((purchase, index) => {
+    if (this.state.purchases.length > 0) {
+      return this.state.purchases.map((purchase, index) => {
         return (
           purchase.amount > 0 && (
-            <React.Fragment key={purchase.id}>
+            <React.Fragment key={index}>
               <div
                 className={
                   this.props.cartPage
@@ -127,26 +146,23 @@ class CartItems extends React.Component {
                       -
                     </div>
                   </div>
-                  <Link to={`/categories/all/products/${purchase.product.id}`}>
-                    <div
-                      className={
-                        this.props.cartPage
-                          ? "cartItemGalleryImg"
-                          : "cartItemImg"
-                      }
+                  {this.props.cartPage ? (
+                    <CartItemGallery
+                      images={purchase.product.gallery}
+                      id={purchase.product.id}
+                    />
+                  ) : (
+                    <Link
+                      to={`/categories/all/products/${purchase.product.id}`}
                     >
-                      {this.props.cartPage ? (
-                        <CartItemGallery images={purchase.product.gallery} />
-                      ) : (
+                      <div className="cartItemImg">
                         <img
                           src={purchase.product.gallery[0]}
-                          alt={
-                            purchase.product.brand + " " + purchase.product.name
-                          }
+                          alt={`${purchase.product.brand} ${purchase.product.name}`}
                         ></img>
-                      )}
-                    </div>
-                  </Link>
+                      </div>
+                    </Link>
+                  )}
                 </div>
               </div>
 
@@ -162,12 +178,15 @@ class CartItems extends React.Component {
                       <div className="cartSummaryNumbers">
                         <p>
                           {this.props.currency}
-                          {Math.round(this.state.totalPrice * 21, 2) / 100}
+                          {Math.round(
+                            this.totalPrice(this.state.purchases) * 21,
+                            2
+                          ) / 100}
                         </p>
                         <p>{this.props.totalAmount}</p>
                         <p>
                           {this.props.currency}
-                          {this.state.totalPrice}
+                          {this.totalPrice(this.state.purchases)}
                         </p>
                       </div>
                       <button className="cartSummaryButton">ORDER</button>
@@ -178,15 +197,21 @@ class CartItems extends React.Component {
                     <span>Total:</span>
                     <span className="totalPriceSum">
                       {this.props.currency}
-                      {this.state.totalPrice}
+                      {this.totalPrice(this.state.purchases)}
                     </span>
                   </div>
                 ))}
             </React.Fragment>
           )
         );
-      })
-    );
+      });
+    } else {
+      return (
+        <div className="loaderContainer">
+          <div className="loader"></div>
+        </div>
+      );
+    }
   }
 }
 

@@ -1,6 +1,9 @@
 import React from "react";
 
 class CartItemParams extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div className={this.props.cartPage ? "productParams" : "cartItemParams"}>
@@ -23,7 +26,7 @@ class CartItemParams extends React.Component {
               }
               key={cartIndex}
             >
-              {attribute.name + ":"}
+              {`${attribute.name} :`}
               <div>
                 {attribute.items.map((item, attrIndex) =>
                   attribute.type !== "swatch" ? (
