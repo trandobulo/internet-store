@@ -12,7 +12,7 @@ class ProductParams extends React.Component {
         {this.props.product.attributes &&
           this.props.product.attributes.map((attribute, index) => (
             <label className="attributeName" key={index}>
-              {attribute.name + ":"}
+              {`${attribute.name}:`}
               <div>
                 {attribute.items.map((item, index) =>
                   attribute.type !== "swatch" ? (
@@ -56,8 +56,8 @@ class ProductParams extends React.Component {
               </div>
             </label>
           ))}
-        <label className="attributeName">
-          PRICE:
+        <label className="attributeNamePrice">
+          price:
           <div className="priceParam">
             {this.props.currency}
             {this.props.getPrice(this.props.product, this.props.currency)}

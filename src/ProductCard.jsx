@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import setDefaultProductParams from "./utils/setDefaultProductParams";
-import cartIcon from "./cartIcon";
+import { ReactComponent as CartIcon } from "./cartIcon.svg";
 
 class productCard extends React.Component {
   constructor(props) {
@@ -51,11 +51,11 @@ class productCard extends React.Component {
             )}
             <img
               src={this.props.product.gallery[0]}
-              alt={this.props.product.brand + " " + this.props.product.name}
+              alt={`${this.props.product.brand} ${this.props.product.name}`}
             ></img>
           </div>
           <div className="productName">
-            {this.props.product.brand + " " + this.props.product.name}
+            {`${this.props.product.brand} ${this.props.product.name}`}
           </div>
           <div className="productPrice">
             {this.props.currentCurrency}
@@ -68,7 +68,7 @@ class productCard extends React.Component {
         </Link>
         {this.state.activeListCartBtn && this.props.product.inStock && (
           <button className="listAddToCartBtn" onClick={this.addToCart}>
-            {cartIcon("24", "24", "#fff")}
+            <CartIcon width={"24"} height={"24"} fill={"#fff"} />
           </button>
         )}
       </div>

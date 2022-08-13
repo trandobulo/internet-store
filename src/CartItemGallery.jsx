@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import arrowIcon from "./arrowIcon";
+import { ReactComponent as ArrowIcon } from "./arrowIcon.svg";
 
 class CartItemGallery extends React.Component {
   constructor(props) {
@@ -24,12 +24,11 @@ class CartItemGallery extends React.Component {
     return (
       <>
         <Link to={`/categories/all/products/${this.props.id}`}>
-          <div className="cartItemGalleryImg">
-            <img
-              src={this.props.images[this.state.index]}
-              alt={this.props.id}
-            ></img>
-          </div>
+          <img
+            className="cartItemGalleryImg"
+            src={this.props.images[this.state.index]}
+            alt={this.props.id}
+          ></img>
         </Link>
         {this.props.images.length > 1 && (
           <>
@@ -38,14 +37,14 @@ class CartItemGallery extends React.Component {
               data-direction="prev"
               onClick={this.handleGalleryClick}
             >
-              {arrowIcon()}
+              <ArrowIcon />
             </div>
             <div
               className="cartItemGalleryBtn next"
               data-direction="next"
               onClick={this.handleGalleryClick}
             >
-              {arrowIcon()}
+              <ArrowIcon />
             </div>
           </>
         )}

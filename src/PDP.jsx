@@ -10,7 +10,7 @@ class PDP extends React.Component {
     super(props);
 
     this.state = {
-      activeFotoIndex: 0,
+      activePhotoIndex: 0,
       activeProduct: {},
       activeProductParams: {},
       activeProductPrice: "",
@@ -78,10 +78,10 @@ class PDP extends React.Component {
 
   handleGalleryClick(e) {
     this.setState({
-      activeFotoIndex:
+      activePhotoIndex:
         e.target.dataset.index !== undefined
           ? e.target.dataset.index
-          : this.state.activeFotoIndex,
+          : this.state.activePhotoIndex,
     });
   }
 
@@ -97,7 +97,7 @@ class PDP extends React.Component {
   addToCart() {
     this.props.addToCart({
       activeProductId: this.props.match.params.productId,
-      activeProductParams: this.state.activeProductParams,
+      activeProductParamcoverimgs: this.state.activeProductParams,
       activeProductPrice: this.state.activeProductPrice,
     });
   }
@@ -109,23 +109,25 @@ class PDP extends React.Component {
           <div className="gallery">
             <div className="galleryItems" onClick={this.handleGalleryClick}>
               {this.state.activeProduct.gallery.map((item, index) => (
-                <div className="gallerythumbnail" key={index}>
-                  <img
-                    src={item}
-                    alt={this.state.activeProduct.name}
-                    data-index={index}
-                  ></img>
-                </div>
+                <img
+                  className="gallerythumbnail"
+                  key={index}
+                  src={item}
+                  alt={this.state.activeProduct.name}
+                  data-index={index}
+                ></img>
               ))}
             </div>
-            <div className="activeFoto">
+            <div className="activePhoto">
               {!this.state.activeProduct.inStock && (
-                <div className="galleryOutOfStockLayer">OUT OF STOCK</div>
+                <div className="galleryOutOfStockLayer">out of stock</div>
               )}
               {
                 <img
                   src={
-                    this.state.activeProduct.gallery[this.state.activeFotoIndex]
+                    this.state.activeProduct.gallery[
+                      this.state.activePhotoIndex
+                    ]
                   }
                   alt={this.state.activeProduct.name}
                 ></img>

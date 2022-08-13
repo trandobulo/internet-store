@@ -5,6 +5,8 @@ import CartItemParams from "./CartItemParams";
 import CartItemGallery from "./CartItemGallery";
 import { Link, withRouter } from "react-router-dom";
 import getTotalPurchasesAmount from "./utils/getTotalPurchasesAmount";
+import { ReactComponent as PlusIcon } from "./plusIcon.svg";
+import { ReactComponent as MinusIcon } from "./minusIcon.svg";
 
 class CartItems extends React.Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class CartItems extends React.Component {
           query: gql`
             query ($id: String!) {
               product(id: $id) {
+                category
                 brand
                 id
                 gallery
@@ -108,103 +111,117 @@ class CartItems extends React.Component {
   }
 
   render() {
-    if (this.state.purchases.length > 0) {
-      return this.state.purchases.map((purchase, index) => {
-        return (
-          purchase.amount > 0 && (
-            <React.Fragment key={index}>
-              <div
-                className={
-                  this.props.cartPage
-                    ? index === this.state.purchases.length - 1
-                      ? "cartItem overlined underlined"
-                      : "cartItem overlined"
-                    : "cartItem"
-                }
-              >
-                <CartItemParams
-                  cartPage={this.props.cartPage}
-                  location={this.props.location}
-                  purchase={purchase}
-                  currency={this.props.currency}
-                  price={this.props.getPrice(
-                    purchase.product,
-                    this.props.currency
-                  )}
-                />
-                <div className="cartItemBlock">
+    const items = this.state.purchases.map((purchase, index) => {
+      return (
+        purchase.amount > 0 && (
+          <React.Fragment key={index}>
+            <div
+              className={
+                this.props.cartPage
+                  ? index === this.state.purchases.length - 1
+                    ? "cartItem overlined underlined"
+                    : "cartItem overlined"
+                  : "cartItem"
+              }
+            >
+              <CartItemParams
+                cartPage={this.props.cartPage}
+                location={this.props.location}
+                purchase={purchase}
+                currency={this.props.currency}
+                price={this.props.getPrice(
+                  purchase.product,
+                  this.props.currency
+                )}
+              />
+              <div className="cartItemBlock">
+                <div
+                  className="cartItemCount"
+                  data-key={index}
+                  onClick={this.props.changeAmount}
+                >
                   <div
-                    className="cartItemCount"
-                    data-key={index}
-                    onClick={this.props.changeAmount}
+                    className={
+                      this.props.cartPage ? "cartChangeAmount" : "changeAmount"
+                    }
+                    data-id="increase"
                   >
-                    <div className="changeAmount" data-id="increase">
-                      +
-                    </div>
-                    {purchase.amount}
-                    <div className="changeAmount" data-id="decrease">
-                      -
-                    </div>
+                    <PlusIcon />
                   </div>
-                  {this.props.cartPage ? (
-                    <CartItemGallery
-                      images={purchase.product.gallery}
-                      id={purchase.product.id}
-                    />
-                  ) : (
-                    <Link
-                      to={`/categories/all/products/${purchase.product.id}`}
-                    >
-                      <div className="cartItemImg">
-                        <img
-                          src={purchase.product.gallery[0]}
-                          alt={`${purchase.product.brand} ${purchase.product.name}`}
-                        ></img>
-                      </div>
-                    </Link>
-                  )}
+                  {purchase.amount}
+                  <div
+                    className={
+                      this.props.cartPage ? "cartChangeAmount" : "changeAmount"
+                    }
+                    data-id="decrease"
+                  >
+                    <MinusIcon />
+                  </div>
                 </div>
-              </div>
-
-              {index === this.state.purchases.length - 1 &&
-                (this.props.cartPage ? (
-                  <div className="cartSummary">
-                    <div className="cartSummaryInfo">
-                      <div>
-                        <p>Tax 21%:</p>
-                        <p>Quantity:</p>
-                        <p>Total:</p>
-                      </div>
-                      <div className="cartSummaryNumbers">
-                        <p>
-                          {this.props.currency}
-                          {Math.round(
-                            this.totalPrice(this.state.purchases) * 21,
-                            2
-                          ) / 100}
-                        </p>
-                        <p>{this.props.totalAmount}</p>
-                        <p>
-                          {this.props.currency}
-                          {this.totalPrice(this.state.purchases)}
-                        </p>
-                      </div>
-                      <button className="cartSummaryButton">ORDER</button>
-                    </div>
-                  </div>
+                {this.props.cartPage ? (
+                  <CartItemGallery
+                    images={purchase.product.gallery}
+                    id={purchase.product.id}
+                  />
                 ) : (
-                  <div className="totalPrice">
-                    <span>Total:</span>
-                    <span className="totalPriceSum">
-                      {this.props.currency}
-                      {this.totalPrice(this.state.purchases)}
-                    </span>
-                  </div>
-                ))}
-            </React.Fragment>
-          )
-        );
-      });
+                  <Link
+                    to={`/categories/${purchase.product.category}/products/${purchase.product.id}`}
+                  >
+                    <img
+                      className="cartItemImg"
+                      src={purchase.product.gallery[0]}
+                      alt={`${purchase.product.brand} ${purchase.product.name}`}
+                    ></img>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </React.Fragment>
+        )
+      );
+    });
+
+    const totalInfo = this.props.cartPage ? (
+      <div className="cartSummary">
+        <div className="cartSummaryInfo">
+          <div>
+            <p>Tax 21%:</p>
+            <p>Quantity:</p>
+            <p>Total:</p>
+          </div>
+          <div className="cartSummaryNumbers">
+            <p>
+              {this.props.currency}
+              {Math.round(this.totalPrice(this.state.purchases) * 21, 2) / 100}
+            </p>
+            <p>{this.props.totalAmount}</p>
+            <p>
+              {this.props.currency}
+              {this.totalPrice(this.state.purchases)}
+            </p>
+          </div>
+          <button className="cartSummaryButton">ORDER</button>
+        </div>
+      </div>
+    ) : (
+      <div className="totalPrice">
+        <span>Total:</span>
+        <span className="totalPriceSum">
+          {this.props.currency}
+          {this.totalPrice(this.state.purchases)}
+        </span>
+      </div>
+    );
+
+    if (this.state.purchases.length > 0) {
+      return (
+        <>
+          <div className={this.props.cartPage ? "" : "cartItemsContainer"}>
+            {items}
+          </div>
+          {totalInfo}
+        </>
+      );
     } else {
       return (
         <div className="loaderContainer">

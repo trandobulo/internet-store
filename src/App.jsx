@@ -13,12 +13,20 @@ class App extends React.Component {
     this.state = {
       activeCurrency: "$",
       cart: [],
+      isCartOpen: false,
     };
+
+    this.cartShortCutWrapperRef = React.createRef();
+    this.cartShortCutListWrapperRef = React.createRef();
 
     this.switchCurrency = this.switchCurrency.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
     this.handleChangeAmount = this.handleChangeAmount.bind(this);
     this.handleChangeAmount = this.handleChangeAmount.bind(this);
+
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.isCartOpenHandler = this.isCartOpenHandler.bind(this);
+    this.handleViewBagBtn = this.handleViewBagBtn.bind(this);
   }
 
   switchCurrency(e) {
@@ -38,7 +46,7 @@ class App extends React.Component {
   }
 
   handleAddToCart(productInfo) {
-    const arr = this.state.cart.slice();
+    const arr = [...this.state.cart];
 
     const params = {};
 
@@ -80,6 +88,27 @@ class App extends React.Component {
     }
   }
 
+  handleClickOutside(event) {
+    if (
+      this.state.isCartOpen &&
+      this.cartShortCutWrapperRef &&
+      !this.cartShortCutWrapperRef.current.contains(event.target) &&
+      this.cartShortCutListWrapperRef &&
+      !this.cartShortCutListWrapperRef.current.contains(event.target)
+    ) {
+      this.setState({ isCartOpen: false });
+    }
+  }
+
+  handleViewBagBtn() {
+    this.setState({ isCartOpen: false });
+  }
+
+  isCartOpenHandler() {
+    this.state.cart.length > 0 &&
+      this.setState({ isCartOpen: !this.state.isCartOpen });
+  }
+
   componentDidMount() {
     const storage = JSON.parse(window.localStorage.getItem("cart"));
     const currency = JSON.parse(window.localStorage.getItem("currency"));
@@ -105,7 +134,7 @@ class App extends React.Component {
           <Navigations onclick={this.handleNavClick} />
           <img
             className="navLogo"
-            src={`${process.env.PUBLIC_URL}/content/brand-icon.png`}
+            src={`${process.env.PUBLIC_URL}/brand-icon.png`}
             alt="brand logo"
           />
           <div className="actions">
@@ -113,48 +142,56 @@ class App extends React.Component {
               onclick={this.switchCurrency}
               activeCurrency={this.state.activeCurrency}
             />
-            {this.state.isCartOpen && <div className="cartOverlay"></div>}
             <DropCart
               purchases={this.state.cart}
               currency={this.state.activeCurrency}
               changeAmount={this.handleChangeAmount}
               getPrice={this.getPrice}
+              isCartOpen={this.state.isCartOpen}
+              isCartOpenHandler={this.isCartOpenHandler}
+              cartShortCutWrapperRef={this.cartShortCutWrapperRef}
+              cartShortCutListWrapperRef={this.cartShortCutListWrapperRef}
+              handleClickOutside={this.handleClickOutside}
+              handleViewBagBtn={this.handleViewBagBtn}
             />
           </div>
         </div>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/categories/all" />
-          </Route>
-          <Route exact path="/categories">
-            <Redirect to="/categories/all" />
-          </Route>
-          <Route exact path="/categories/:categoryId/products">
-            <Redirect to="/categories/all" />
-          </Route>
-          <Route exact path="/categories/:categoryId">
-            <PLP
-              currentCurrency={this.state.activeCurrency}
-              productCardOnClick={this.handleProductClick}
-              addToCart={this.handleAddToCart}
-            />
-          </Route>
-          <Route path="/categories/:categoryId/products/:productId">
-            <PDP
-              currentCurrency={this.state.activeCurrency}
-              getPrice={this.getPrice}
-              addToCart={this.handleAddToCart}
-            />
-          </Route>
-          <Route path="/cart">
-            <CartPage
-              purchases={this.state.cart}
-              currency={this.state.activeCurrency}
-              changeAmount={this.handleChangeAmount}
-              getPrice={this.getPrice}
-            />
-          </Route>
-        </Switch>
+        <main>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/categories/all" />
+            </Route>
+            <Route exact path="/categories">
+              <Redirect to="/categories/all" />
+            </Route>
+            <Route exact path="/categories/:categoryId/products">
+              <Redirect to="/categories/all" />
+            </Route>
+            <Route exact path="/categories/:categoryId">
+              <PLP
+                currentCurrency={this.state.activeCurrency}
+                productCardOnClick={this.handleProductClick}
+                addToCart={this.handleAddToCart}
+              />
+            </Route>
+            <Route path="/categories/:categoryId/products/:productId">
+              <PDP
+                currentCurrency={this.state.activeCurrency}
+                getPrice={this.getPrice}
+                addToCart={this.handleAddToCart}
+              />
+            </Route>
+            <Route path="/cart">
+              <CartPage
+                purchases={this.state.cart}
+                currency={this.state.activeCurrency}
+                changeAmount={this.handleChangeAmount}
+                getPrice={this.getPrice}
+              />
+            </Route>
+          </Switch>
+          {this.state.isCartOpen && <div className="cartOverlay"></div>}
+        </main>
       </>
     );
   }
