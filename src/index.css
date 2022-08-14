@@ -9,6 +9,8 @@ html{
 }
 
 body {
+  display: flex;
+  flex-grow: 1;
   height: 100%;
   margin: 0;
   font-family: 'Raleway', sans-serif;
@@ -17,11 +19,13 @@ body {
 }
 
 #root{
-  height: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
 }
 
 a {text-decoration: none;
-color: #000;
+  color: #000;
 }
 
 code {
@@ -31,18 +35,19 @@ code {
 
 main{
   position: relative;
-  padding: 50px 0px 50px 100px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 80px 100px;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 1440px;
   height: 80px;
   background-color: #ffffff;
-  z-index: 4;
+  padding: 0px 100px;
 }
 
 .nav {
@@ -51,8 +56,6 @@ main{
   align-items: center;
   padding: 0px;
   height: 100%;
-  position: relative;
-  padding-left: 100px;
 }
 
 .nav label {
@@ -96,7 +99,6 @@ main{
 
 .actions{
   display: flex;
-  padding-right: 70px;
 }
 
 .currencySwitcher{
@@ -143,7 +145,7 @@ main{
   background-color: #fff;
   font-size: 18px;
   height: 45px;
-  padding: 0px 0px 0px 20px;
+  padding-left: 20px;
 }
 
 
@@ -184,7 +186,7 @@ main{
 .cartShortCutList{
   position: absolute;
   top: 80px;
-  left: 1050px;
+  right: 72px;
   width: 320px;
   max-height: 575px;
   box-shadow: 0px 4px 35px rgb(168 172 176 / 19%);
@@ -199,7 +201,6 @@ main{
   left: 0px;
   height: 100%;
   width: 100%;
-  min-width: 1440px;
   background-color: #000;
   opacity: 0.22;
   z-index: 2;
@@ -292,7 +293,6 @@ main{
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  height: 100%;
 }
 
 .productCard{
@@ -391,7 +391,6 @@ main{
 }
 
 .productPage{
-  height: 100%;
   display: flex;
 }
 
@@ -431,14 +430,14 @@ main{
   width: 300px;
 }
 .attributeName{
-  font-family: 'Roboto Condensed', sans-serif;;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .attributeNamePrice{
-  font-family: 'Roboto Condensed', sans-serif;;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;
@@ -512,7 +511,7 @@ main{
 }
 
 .priceParam{
-  font-family: 'Raleway', sans-serif !important;
+  font-family: 'Raleway', sans-serif;
   font-weight: 700;
   font-size: 24px;
   width: 86px;
@@ -722,9 +721,7 @@ text-transform: uppercase;
 }
 
 .cartPageContent{
-  width: 1240px;
-  height: 100%;
-  padding-bottom: 274px;
+  width: 100%;
 }
 
 .cartPageContent >h3{
