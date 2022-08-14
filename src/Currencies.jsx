@@ -1,23 +1,24 @@
 import React from "react";
 import gql from "graphql-tag";
-import client from "./index";
+import client from "./apolloClient";
+import { ReactComponent as CurrencyChevron } from "./svg/currencyChevron.svg";
 
 class Currencies extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      listOpen: false,
+      isListOpen: false,
+      currencies: [],
     };
 
-    this.currencies = [];
-
-    this.wrapperRef = React.createRef(); // don't fully understood how it work
+    this.wrapperRef = React.createRef();
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.isListOpen = this.isListOpen.bind(this);
   }
 
-  GET_CURRENCIES = async () =>
-    await client
+  getCurrencies = () =>
+    client
       .query({
         query: gql`
           query {
@@ -30,17 +31,21 @@ class Currencies extends React.Component {
       })
 
       .then((result) => {
-        this.currencies = result; // isn't it be better to write it into the state ?
+        this.setState({ currencies: result });
       });
 
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-      this.setState({ listOpen: false });
+      this.setState({ isListOpen: false });
     }
   }
 
+  isListOpen() {
+    this.setState({ isListOpen: !this.state.isListOpen });
+  }
+
   componentDidMount() {
-    this.GET_CURRENCIES(); // how to be sure that element will fetch data before open list
+    this.getCurrencies();
     document.addEventListener("click", this.handleClickOutside);
   }
 
@@ -51,27 +56,28 @@ class Currencies extends React.Component {
   render() {
     return (
       <div className="currencySwitcher">
-        <div
+        <button
           className="currency"
           ref={this.wrapperRef}
-          onClick={() => {
-            this.setState({ listOpen: !this.state.listOpen });
-          }}
+          onClick={this.isListOpen}
         >
           {this.props.activeCurrency}
-        </div>
-        {this.state.listOpen && (
+          <CurrencyChevron
+            className={this.state.isListOpen ? "rotated" : "notRotated"}
+          />
+        </button>
+        {this.state.isListOpen && (
           <div className="currenciesList">
-            {this.currencies.data.currencies.map((currency, index) => {
-              return (
-                <div key={index} onClick={this.props.click}>
-                  <div className="currenciesListItem">
-                    <span>{currency.symbol}</span>
-                    <span>{currency.label}</span>
-                  </div>
-                </div>
-              );
-            })}
+            {this.state.currencies.data.currencies.map((currency, index) => (
+              <div
+                className="currenciesListItem"
+                key={index}
+                onClick={this.props.onclick}
+                data-symbol={currency.symbol}
+              >
+                {`${currency.symbol} ${currency.label}`}
+              </div>
+            ))}
           </div>
         )}
       </div>

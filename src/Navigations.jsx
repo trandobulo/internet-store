@@ -1,14 +1,15 @@
 import React from "react";
 import gql from "graphql-tag";
-import client from "./index";
+import client from "./apolloClient";
+import { Link, withRouter } from "react-router-dom";
 
 class Navigations extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { categories: [] };
+    this.state = { categories: [], activeCategory: "all" };
   }
 
-  GET_CATEGORIES = () =>
+  getCategories = () =>
     client
       .query({
         query: gql`
@@ -26,22 +27,34 @@ class Navigations extends React.Component {
       );
 
   componentDidMount() {
-    this.GET_CATEGORIES();
+    this.getCategories();
   }
 
   render() {
     return (
-      <div className="nav">
+      <nav className="nav">
         {this.state.categories.map((category, index) => {
           return (
-            <div className="navButton" key={index} onClick={this.props.click}>
-              <label>{category.name.toUpperCase()}</label>
-            </div>
+            <Link to={`/categories/${category.name}`} key={index}>
+              <div
+                className={
+                  this.props.location.pathname
+                    .split("/")
+                    .find((item) => item === category.name)
+                    ? "activeNavButton"
+                    : "navButton"
+                }
+                data-category={category.name}
+                onClick={this.props.onclick}
+              >
+                <label>{category.name}</label>
+              </div>
+            </Link>
           );
         })}
-      </div>
+      </nav>
     );
   }
 }
 
-export default Navigations;
+export default withRouter(Navigations);
