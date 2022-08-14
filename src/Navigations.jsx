@@ -36,7 +36,7 @@ class Navigations extends React.Component {
         {this.state.categories.map((category, index) => {
           return (
             <Link to={`/categories/${category.name}`} key={index}>
-              <div
+              <nav
                 className={
                   this.props.location.pathname
                     .split("/")
@@ -48,7 +48,7 @@ class Navigations extends React.Component {
                 onClick={this.props.onclick}
               >
                 <label>{category.name}</label>
-              </div>
+              </nav>
             </Link>
           );
         })}

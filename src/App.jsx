@@ -46,7 +46,7 @@ class App extends React.Component {
   }
 
   handleAddToCart(productInfo) {
-    const arr = [...this.state.cart];
+    const arr = this.state.cart.slice();
 
     const params = {};
 
@@ -130,7 +130,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <div className="header">
+        <header className="header">
           <Navigations onclick={this.handleNavClick} />
           <img
             className="navLogo"
@@ -155,7 +155,7 @@ class App extends React.Component {
               handleViewBagBtn={this.handleViewBagBtn}
             />
           </div>
-        </div>
+        </header>
         <main>
           <Switch>
             <Route exact path="/">

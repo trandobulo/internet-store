@@ -4,12 +4,20 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+html{
+  height: 100%;
+}
 
 body {
+  height: 100%;
   margin: 0;
   font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root{
+  height: 100%;
 }
 
 a {text-decoration: none;
@@ -24,7 +32,7 @@ code {
 main{
   position: relative;
   padding: 50px 0px 50px 100px;
-
+  height: 100%;
 }
 
 .header {
@@ -94,12 +102,16 @@ main{
 .currencySwitcher{
   position: relative;
   width: 40px;
+  padding-right: 28px;
 }
 
 .currency{
-  width: 38px;
+  border: none;
+  background-color: #fff;
+  width: 60px;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   font-weight: 500;
   font-size: 22px;
   cursor: pointer;
@@ -146,21 +158,27 @@ main{
   display: flex;
   align-items: center;
   cursor: pointer;
+  border: none;
+  background-color: #fff;
 }
 
 .countCircle{
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   position: absolute;
-  top: -3px;
-  left: 15px;
+  top: 0px;
+  left: 20px;
   background-color: #000;
-  width: 15px;
-  height: 15px;
+  width: 14.3px;
+  height: 14.3px;
   border-radius: 50%;
-  color: #ffffff;
-  font-size: x-small;
+  color: #fff;
+  font-family: 'Roboto';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: uppercase;
 }
 
 .cartShortCutList{
@@ -224,11 +242,27 @@ main{
   margin-right: 10px;
 }
 
-.cartItemImg{
+.cartItemBlock > a {
+  padding-right: 10px;
   width: 121px;
   height: 190px;
-  object-fit: cover;
+}
+
+.cartItemGalleryBlock{
+  position: relative;
+  display: flex;
+}
+
+.cartItemGalleryBlock > a {
   padding-right: 10px;
+  width: 200px;
+  height: 288px;
+}
+
+.cartItemImg{
+  width: inherit;
+  object-fit: cover;
+  height: inherit;
 }
 
 .cartItemImg:hover{

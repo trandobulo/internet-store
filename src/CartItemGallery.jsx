@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import { ReactComponent as ArrowIcon } from "./arrowIcon.svg";
+import { ReactComponent as ArrowIcon } from "./svg/arrowIcon.svg";
 
 class CartItemGallery extends React.Component {
   constructor(props) {
@@ -32,20 +32,20 @@ class CartItemGallery extends React.Component {
         </Link>
         {this.props.images.length > 1 && (
           <>
-            <div
+            <button
               className="cartItemGalleryBtn prev"
               data-direction="prev"
               onClick={this.handleGalleryClick}
             >
               <ArrowIcon />
-            </div>
-            <div
+            </button>
+            <button
               className="cartItemGalleryBtn next"
               data-direction="next"
               onClick={this.handleGalleryClick}
             >
               <ArrowIcon />
-            </div>
+            </button>
           </>
         )}
       </>

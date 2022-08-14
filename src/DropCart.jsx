@@ -2,7 +2,7 @@ import React from "react";
 import CartItems from "./CartItems";
 import { Link } from "react-router-dom";
 import getTotalPurchasesAmount from "./utils/getTotalPurchasesAmount";
-import { ReactComponent as CartIcon } from "./cartIcon.svg";
+import { ReactComponent as CartIcon } from "./svg/cartIcon.svg";
 
 class DropCart extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class DropCart extends React.Component {
   render() {
     return (
       <>
-        <div
+        <button
           className="cartShortCut"
           ref={this.props.cartShortCutWrapperRef}
           onClick={this.props.isCartOpenHandler}
@@ -31,7 +31,7 @@ class DropCart extends React.Component {
               {getTotalPurchasesAmount(this.props.purchases)}
             </div>
           )}
-        </div>
+        </button>
         {this.props.isCartOpen && (
           <>
             <div

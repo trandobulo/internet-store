@@ -5,8 +5,8 @@ import CartItemParams from "./CartItemParams";
 import CartItemGallery from "./CartItemGallery";
 import { Link, withRouter } from "react-router-dom";
 import getTotalPurchasesAmount from "./utils/getTotalPurchasesAmount";
-import { ReactComponent as PlusIcon } from "./plusIcon.svg";
-import { ReactComponent as MinusIcon } from "./minusIcon.svg";
+import { ReactComponent as PlusIcon } from "./svg/plusIcon.svg";
+import { ReactComponent as MinusIcon } from "./svg/minusIcon.svg";
 
 class CartItems extends React.Component {
   constructor(props) {
@@ -134,7 +134,11 @@ class CartItems extends React.Component {
                   this.props.currency
                 )}
               />
-              <div className="cartItemBlock">
+              <div
+                className={
+                  this.props.cartPage ? "cartItemGalleryBlock" : "cartItemBlock"
+                }
+              >
                 <div
                   className="cartItemCount"
                   data-key={index}

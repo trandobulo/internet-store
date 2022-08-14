@@ -97,7 +97,7 @@ class PDP extends React.Component {
   addToCart() {
     this.props.addToCart({
       activeProductId: this.props.match.params.productId,
-      activeProductParamcoverimgs: this.state.activeProductParams,
+      activeProductParams: this.state.activeProductParams,
       activeProductPrice: this.state.activeProductPrice,
     });
   }

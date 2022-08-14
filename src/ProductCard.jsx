@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import setDefaultProductParams from "./utils/setDefaultProductParams";
-import { ReactComponent as CartIcon } from "./cartIcon.svg";
+import { ReactComponent as CartIcon } from "./svg/cartIcon.svg";
 
 class productCard extends React.Component {
   constructor(props) {

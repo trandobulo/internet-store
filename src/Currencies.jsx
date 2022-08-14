@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import client from "./apolloClient";
-import { ReactComponent as CurrencyChevron } from "./currencyChevron.svg";
+import { ReactComponent as CurrencyChevron } from "./svg/currencyChevron.svg";
 
 class Currencies extends React.Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class Currencies extends React.Component {
   render() {
     return (
       <div className="currencySwitcher">
-        <div
+        <button
           className="currency"
           ref={this.wrapperRef}
           onClick={this.isListOpen}
@@ -65,7 +65,7 @@ class Currencies extends React.Component {
           <CurrencyChevron
             className={this.state.isListOpen ? "notRotated" : "rotated"}
           />
-        </div>
+        </button>
         {this.state.isListOpen && (
           <div className="currenciesList">
             {this.state.currencies.data.currencies.map((currency, index) => (
