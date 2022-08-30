@@ -1,7 +1,11 @@
-const setDefaultProductParams = (attributes) => {
+const setDefaultProductParams = (attributes, choosenAttributes) => {
   let obj = {};
   for (let attribute of attributes) {
-    obj[attribute.name] = attribute.items[0].value;
+    if (!choosenAttributes[attribute.name]) {
+      obj[attribute.name] = attribute.items[0].value;
+    } else {
+      obj[attribute.name] = choosenAttributes[attribute.name];
+    }
   }
   return obj;
 };

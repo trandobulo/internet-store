@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700&family=Roboto+Condensed:wght@500;700&family=Source+Sans+Pro&display=swap&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+@import "./pages/cartPage.css";
+@import "./pages/productListPage.css";
+@import "./pages/productPage.css";
+@import "./app.css";
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+html{
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root{
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+a {text-decoration: none;
+  color: #000;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+main{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 80px 100px;
+}
+
+

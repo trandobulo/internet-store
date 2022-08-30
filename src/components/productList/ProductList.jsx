@@ -1,14 +1,13 @@
 import React from "react";
-import client from "./apolloClient";
+import client from "../../apolloClient";
 import gql from "graphql-tag";
-import ProductCard from "./ProductCard";
+import ProductCard from "../productCard/ProductCard";
 
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = { products: [] };
-    this.currencyFilter = this.currencyFilter.bind(this);
   }
 
   getProducts = (activeCategory) => {
@@ -62,25 +61,21 @@ class ProductList extends React.Component {
     }
   }
 
-  currencyFilter = (item) =>
-    this.props.currentCurrency === item.currency.symbol;
+  renderProductCards = () => {
+    return this.state.products.map((product, index) => {
+      return (
+        <ProductCard
+          key={index}
+          product={product}
+          currentCurrency={this.props.currentCurrency}
+          addToCart={this.props.addToCart}
+        />
+      );
+    });
+  };
 
   render() {
-    return (
-      <div className="productList">
-        {this.state.products.map((product, index) => {
-          return (
-            <ProductCard
-              key={index}
-              product={product}
-              currentCurrency={this.props.currentCurrency}
-              currencyFilter={this.currencyFilter}
-              addToCart={this.props.addToCart}
-            />
-          );
-        })}
-      </div>
-    );
+    return <div className="productList">{this.renderProductCards()}</div>;
   }
 }
 

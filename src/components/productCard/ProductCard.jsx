@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import setDefaultProductParams from "./utils/setDefaultProductParams";
-import { ReactComponent as CartIcon } from "./svg/cartIcon.svg";
+import setDefaultProductParams from "../../utils/setDefaultProductParams";
+import { ReactComponent as CartIcon } from "../../svg/cartIcon.svg";
+import getPrice from "../../utils/getPrice";
 
 class productCard extends React.Component {
   constructor(props) {
@@ -20,50 +21,53 @@ class productCard extends React.Component {
       productInfo: {
         activeProductId: this.props.product.id,
         activeProductParams: setDefaultProductParams(
-          this.props.product.attributes
+          this.props.product.attributes,
+          {}
         ),
       },
     });
   }
 
+  onMouseEnter = () => {
+    this.setState({ activeListCartBtn: true });
+  };
+
+  onMouseLeave = () => {
+    this.setState({ activeListCartBtn: false });
+  };
+
+  renderProductCardImg = () => {
+    return (
+      <div className="productCardImg">
+        {!this.props.product.inStock && (
+          <div className="outOfStockLayer">OUT OF STOCK</div>
+        )}
+        <img
+          src={this.props.product.gallery[0]}
+          alt={`${this.props.product.brand} ${this.props.product.name}`}
+        ></img>
+      </div>
+    );
+  };
+
   render() {
-    const onMouseEnter = () => {
-      this.setState({ activeListCartBtn: true });
-    };
-
-    const onMouseLeave = () => {
-      this.setState({ activeListCartBtn: false });
-    };
-
     return (
       <div
         className="productCard"
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
       >
         <Link
           to={`${this.props.match.url}/products/${this.props.product.id}`}
           key={this.props.product.id}
         >
-          <div className="productCardImg">
-            {!this.props.product.inStock && (
-              <div className="outOfStockLayer">OUT OF STOCK</div>
-            )}
-            <img
-              src={this.props.product.gallery[0]}
-              alt={`${this.props.product.brand} ${this.props.product.name}`}
-            ></img>
-          </div>
+          {this.renderProductCardImg()}
           <div className="productName">
             {`${this.props.product.brand} ${this.props.product.name}`}
           </div>
           <div className="productPrice">
             {this.props.currentCurrency}
-            {this.props.product.prices.findIndex(this.props.currencyFilter) >= 0
-              ? this.props.product.prices[
-                  this.props.product.prices.findIndex(this.props.currencyFilter)
-                ].amount
-              : "N/A"}
+            {getPrice(this.props.product, this.props.currentCurrency)}
           </div>
         </Link>
         {this.state.activeListCartBtn && this.props.product.inStock && (

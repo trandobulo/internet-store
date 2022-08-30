@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
-import client from "./apolloClient";
-import { ReactComponent as CurrencyChevron } from "./svg/currencyChevron.svg";
+import client from "../../apolloClient";
+import { ReactComponent as CurrencyChevron } from "../../svg/currencyChevron.svg";
 
 class Currencies extends React.Component {
   constructor(props) {
@@ -53,33 +53,43 @@ class Currencies extends React.Component {
     document.removeEventListener("click", this.handleClickOutside);
   }
 
+  currencyBtn = () => {
+    return (
+      <button
+        className="currency"
+        ref={this.wrapperRef}
+        onClick={this.isListOpen}
+      >
+        {this.props.activeCurrency}
+        <CurrencyChevron
+          className={this.state.isListOpen ? "rotated" : "notRotated"}
+        />
+      </button>
+    );
+  };
+
+  currencyList = () => {
+    const list = this.state.currencies.data.currencies.map(
+      (currency, index) => (
+        <div
+          className="currenciesListItem"
+          key={index}
+          onClick={this.props.onclick}
+          data-symbol={currency.symbol}
+        >
+          {`${currency.symbol} ${currency.label}`}
+        </div>
+      )
+    );
+
+    return <div className="currenciesList">{list}</div>;
+  };
+
   render() {
     return (
       <div className="currencySwitcher">
-        <button
-          className="currency"
-          ref={this.wrapperRef}
-          onClick={this.isListOpen}
-        >
-          {this.props.activeCurrency}
-          <CurrencyChevron
-            className={this.state.isListOpen ? "rotated" : "notRotated"}
-          />
-        </button>
-        {this.state.isListOpen && (
-          <div className="currenciesList">
-            {this.state.currencies.data.currencies.map((currency, index) => (
-              <div
-                className="currenciesListItem"
-                key={index}
-                onClick={this.props.onclick}
-                data-symbol={currency.symbol}
-              >
-                {`${currency.symbol} ${currency.label}`}
-              </div>
-            ))}
-          </div>
-        )}
+        {this.currencyBtn()}
+        {this.state.isListOpen && this.currencyList()}
       </div>
     );
   }

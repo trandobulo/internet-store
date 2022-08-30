@@ -1,10 +1,10 @@
 import React from "react";
-import PLP from "./PLP";
-import Navigations from "./Navigations";
-import Currencies from "./Currencies";
-import PDP from "./PDP";
-import DropCart from "./DropCart";
-import CartPage from "./CartPage";
+import PLP from "./pages/ProductListPage";
+import Navigations from "./components/navigations/Navigations";
+import Currencies from "./components/currencies/Currencies";
+import PDP from "./pages/ProductPage";
+import DropCart from "./components/dropCart/DropCart";
+import CartPage from "./pages/CartPage";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 class App extends React.Component {
@@ -35,16 +35,6 @@ class App extends React.Component {
     });
   }
 
-  getPrice(product, currency) {
-    const currencyFilter = (item) => currency === item.currency.symbol;
-
-    return product.prices &&
-      currency &&
-      product.prices.findIndex(currencyFilter) >= 0
-      ? product.prices[product.prices.findIndex(currencyFilter)].amount
-      : "N/A";
-  }
-
   handleAddToCart(productInfo) {
     const arr = this.state.cart.slice();
 
@@ -71,17 +61,17 @@ class App extends React.Component {
   }
 
   handleChangeAmount(e) {
-    let arr = this.state.cart.slice();
+    let arr = [...this.state.cart];
 
-    if (e.target.dataset.id === "increase") {
+    if (e.currentTarget.dataset.id === "increase") {
       arr[e.currentTarget.dataset.key].amount++;
       this.setState({ cart: arr });
-    } else if (e.target.dataset.id === "decrease") {
-      if (arr[e.currentTarget.dataset.key].amount > 0) {
+    } else if (e.currentTarget.dataset.id === "decrease") {
+      if (arr[e.currentTarget.dataset.key].amount >= 1) {
         arr[e.currentTarget.dataset.key].amount--;
       }
 
-      if (arr[e.currentTarget.dataset.key].amount === 0) {
+      if (arr[e.currentTarget.dataset.key].amount < 1) {
         arr.splice(e.currentTarget.dataset.key, 1);
       }
       this.setState({ cart: arr });
@@ -146,7 +136,6 @@ class App extends React.Component {
               purchases={this.state.cart}
               currency={this.state.activeCurrency}
               changeAmount={this.handleChangeAmount}
-              getPrice={this.getPrice}
               isCartOpen={this.state.isCartOpen}
               isCartOpenHandler={this.isCartOpenHandler}
               cartShortCutWrapperRef={this.cartShortCutWrapperRef}
@@ -177,7 +166,6 @@ class App extends React.Component {
             <Route path="/categories/:categoryId/products/:productId">
               <PDP
                 currentCurrency={this.state.activeCurrency}
-                getPrice={this.getPrice}
                 addToCart={this.handleAddToCart}
               />
             </Route>
@@ -186,7 +174,6 @@ class App extends React.Component {
                 purchases={this.state.cart}
                 currency={this.state.activeCurrency}
                 changeAmount={this.handleChangeAmount}
-                getPrice={this.getPrice}
               />
             </Route>
           </Switch>

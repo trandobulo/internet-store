@@ -1,9 +1,9 @@
 import React from "react";
-import ProductParams from "./ProductParams";
-import client from "./apolloClient";
+import client from "../apolloClient";
 import { gql } from "@apollo/client";
 import { withRouter } from "react-router-dom";
-import setDefaultProductParams from "./utils/setDefaultProductParams";
+import setDefaultProductParams from "../utils/setDefaultProductParams";
+import ProductParams from "../components/productParams/ProductParams";
 
 class PDP extends React.Component {
   constructor(props) {
@@ -59,9 +59,7 @@ class PDP extends React.Component {
       .then((result) => {
         this.setState({
           activeProduct: result.data.product,
-          activeProductParams: setDefaultProductParams(
-            result.data.product.attributes
-          ),
+          activeProductParams: {},
         });
       });
   };
@@ -97,33 +95,45 @@ class PDP extends React.Component {
   addToCart() {
     this.props.addToCart({
       activeProductId: this.props.match.params.productId,
-      activeProductParams: this.state.activeProductParams,
+      activeProductParams: setDefaultProductParams(
+        this.state.activeProduct.attributes,
+        this.state.activeProductParams
+      ),
       activeProductPrice: this.state.activeProductPrice,
     });
   }
 
+  galleryItems = () => {
+    return this.state.activeProduct.gallery.map((item, index) => (
+      <img
+        className="galleryThumbnail"
+        key={index}
+        src={item}
+        alt={this.state.activeProduct.name}
+        data-index={index}
+      ></img>
+    ));
+  };
+
   render() {
+    const purchase = {
+      product: this.state.activeProduct,
+      params: this.state.activeProductParams,
+    };
     return (
       this.state.activeProduct.id && (
         <div className="productPage">
           <div className="gallery">
             <div className="galleryItems" onClick={this.handleGalleryClick}>
-              {this.state.activeProduct.gallery.map((item, index) => (
-                <img
-                  className="gallerythumbnail"
-                  key={index}
-                  src={item}
-                  alt={this.state.activeProduct.name}
-                  data-index={index}
-                ></img>
-              ))}
+              {this.galleryItems()}
             </div>
-            <div className="activePhoto">
+            <div className="activeFotoContainer">
               {!this.state.activeProduct.inStock && (
                 <div className="galleryOutOfStockLayer">out of stock</div>
               )}
               {
                 <img
+                  className="activePhoto"
                   src={
                     this.state.activeProduct.gallery[
                       this.state.activePhotoIndex
@@ -135,10 +145,9 @@ class PDP extends React.Component {
             </div>
           </div>
           <ProductParams
+            page="productPage"
             disabled={this.state.activeProduct.inStock}
-            product={this.state.activeProduct}
-            getPrice={this.props.getPrice}
-            activeProductParams={this.state.activeProductParams}
+            purchase={purchase}
             currency={this.props.currentCurrency}
             addToCart={this.addToCart}
             chooseParam={this.handleChooseParam}

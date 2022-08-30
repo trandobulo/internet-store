@@ -1,0 +1,198 @@
+.productParams{
+width: 292px;
+}
+
+.attributeName{
+font-family: 'Roboto Condensed', sans-serif;
+font-size: 18px;
+font-weight: 700;
+text-transform: uppercase;
+}
+
+.attributeNamePrice{
+font-family: 'Roboto Condensed', sans-serif;
+font-size: 18px;
+font-weight: 700;
+text-transform: uppercase;
+margin-top: 14px;
+}
+
+
+.attributeName > div {
+font-family: 'Source Sans Pro', sans-serif;
+display: flex;
+margin: 5px 0px 24px 0px;
+align-items: center;
+
+}
+
+.param {
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 10px;
+height: 45px;
+width: 63px;
+border: 1px solid #1D1F22;
+cursor: pointer;
+font-size: 16px;
+font-weight: 400;
+text-align: center;
+}
+
+.paramPage {
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 10px;
+height: 45px;
+width: 63px;
+border: 1px solid #1D1F22;
+font-size: 16px;
+font-weight: 400;
+text-align: center;
+}
+
+.param:hover{
+background-color: #1D1F22;
+color: #ffffff;
+}
+
+.activeParam{
+background-color: #1D1F22;
+color: #ffffff;
+margin-right: 10px;
+}
+
+.paramSwatch > div{
+height: 32px;
+width: 32px;
+}
+
+.paramSwatch{
+display: flex;
+align-items: center;
+justify-content: center;
+height: 36px;
+width: 36px;
+margin-right: 8px;
+border: 1px solid #fff;
+cursor: pointer;
+}
+
+.activeParamSwatch{
+border: 1px solid #5ece7b;
+}
+
+.priceParam{
+font-family: 'Raleway', sans-serif;
+font-weight: 700;
+font-size: 24px;
+height: 46px;
+line-height: 18px;
+margin: 20px 0px;
+}
+
+.brand{
+display: block;
+font-size: 30px;
+font-weight: 600;
+line-height: 27px;
+margin: 0px 0px 15px 0px;
+}
+
+.name{
+display: block;
+font-size: 30px;
+font-weight: 400;
+line-height: 27px;
+margin: 0px 0px 43px 0px;
+}
+
+.addToCartBtn{
+font-family: 'Raleway', sans-serif;
+width: inherit;
+font-weight: 600;
+height: 50px;
+border: none;
+background-color: #5ece7b;
+color: #ffffff;
+margin-bottom: 15px;
+cursor: pointer;
+}
+
+.addToCartBtn:disabled{
+background-color: #bbbbbb;
+}
+
+.description{
+font-family:  'Roboto', sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 25.59px
+
+}
+
+.cartItemParams {
+display: flex;
+flex-direction: column;
+}
+
+.cartItemParams > span {
+font-family: 'Raleway', sans-serif;
+font-weight: 300;
+font-size: 16px;
+line-height: 25.6px;
+}
+
+.cartPriceParam{
+font-weight: 500;
+margin: 16px 0px;
+}
+
+.cartItem > .cartItemParams> .cartAttributeName > div {
+display: flex;
+margin: 8px 0px;
+align-items: center;
+}
+
+.cartAttributeName {
+font-size: 14px;
+font-weight: 400;
+line-height: 16px;
+}
+
+.cartParam{
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 10px;
+height: 24px;
+width: 24px;
+border: 1px solid #1D1F22;
+font-size: 8px;
+font-weight: 400;
+}
+
+.cartActiveParam{
+background-color: #1D1F22;
+color: #ffffff;
+}
+
+.cartParamSwatch > div{
+height: 16px;
+width: 16px;
+}
+
+.cartParamSwatch{
+display: flex;
+align-items: center;
+justify-content: center;
+height: 20px;
+width: 20px;
+margin-right: 8px;
+}
+
+.cartActiveParamSwatch{
+border: 1px solid #5ece7b;
+}

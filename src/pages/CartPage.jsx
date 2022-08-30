@@ -1,6 +1,6 @@
 import React from "react";
-import CartItems from "./CartItems";
-import getTotalPurchasesAmount from "./utils/getTotalPurchasesAmount";
+import CartItems from "../components/cartItems/CartItems";
+import getTotalPurchasesAmount from "../utils/getTotalPurchasesAmount";
 
 class CartPage extends React.Component {
   constructor(props) {
@@ -12,11 +12,10 @@ class CartPage extends React.Component {
         <h3>CART</h3>
         {this.props.purchases.length > 0 ? (
           <CartItems
-            cartPage={true}
+            page={"cartPage"}
             purchases={this.props.purchases}
             currency={this.props.currency}
             changeAmount={this.props.changeAmount}
-            getPrice={this.props.getPrice}
             totalAmount={getTotalPurchasesAmount(this.props.purchases)}
           />
         ) : (

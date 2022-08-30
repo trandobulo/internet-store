@@ -1,5 +1,5 @@
 import React from "react";
-import ProductList from "./ProductList";
+import ProductList from "../components/productList/ProductList";
 import { withRouter } from "react-router-dom";
 
 class PLP extends React.Component {
