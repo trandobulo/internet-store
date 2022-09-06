@@ -1,8 +1,0 @@
-.productList {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 103px 40px;
-  padding: 103px 0px;
-  width: 1240px;
-}
