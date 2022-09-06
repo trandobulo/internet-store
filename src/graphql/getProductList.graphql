@@ -1,0 +1,28 @@
+query ($category: String!) {
+  category(input: { title: $category }) {
+    products {
+      id
+      brand
+      gallery
+      name
+      attributes {
+        id
+        name
+        type
+        items {
+          value
+          id
+          displayValue
+        }
+      }
+      prices {
+        currency {
+          symbol
+          label
+        }
+        amount
+      }
+      inStock
+    }
+  }
+}

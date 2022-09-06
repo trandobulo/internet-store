@@ -1,13 +1,19 @@
 import React from "react";
+import "./Attributes.css";
 
 class Attributes extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  renderAttributeItem = (attribute) => {
+  renderAttributeItem = (attribute, styles) => {
     const renderParam = (item, attrIndex, isSwatch) => {
-      const swatchValue = <div style={{ backgroundColor: item.value }}></div>;
+      const swatchValue = (
+        <div
+          className={styles.paramSwatchItem}
+          style={{ backgroundColor: item.value }}
+        ></div>
+      );
 
       const getParamClass = (item, styles, swatch) => {
         if (this.props.params[attribute.name] === item.value) {
@@ -49,8 +55,10 @@ class Attributes extends React.Component {
 
     return this.props.attributes.map((attribute, cartIndex) => (
       <label className={styles.attributeName} key={cartIndex}>
-        {`${attribute.name} :`}
-        <div>{this.renderAttributeItem(attribute)}</div>
+        {attribute.name}:
+        <div className={styles.attributeItem}>
+          {this.renderAttributeItem(attribute, styles)}
+        </div>
       </label>
     ));
   };

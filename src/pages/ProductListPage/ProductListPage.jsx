@@ -1,6 +1,7 @@
 import React from "react";
-import ProductList from "../components/productList/ProductList";
+import ProductList from "../../components/ProductList/ProductList";
 import { withRouter } from "react-router-dom";
+import "./ProductListPage.css";
 
 class PLP extends React.Component {
   constructor(props) {

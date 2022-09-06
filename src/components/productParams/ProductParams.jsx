@@ -1,7 +1,8 @@
 import React from "react";
-import Attributes from "../attributes/Attributes";
+import Attributes from "../Attributes/Attributes";
 import getPrice from "../../utils/getPrice";
 import parse from "html-react-parser";
+import "./ProductParams.css";
 
 class ProductParams extends React.Component {
   constructor(props) {
@@ -17,8 +18,10 @@ class ProductParams extends React.Component {
           productName: "name",
           productPrice: "priceParam",
           attributeName: "attributeName",
+          attributeItem: "attributeItem",
           activeParam: "param activeParam",
           notActiveParam: "param",
+          paramSwatchItem: "paramSwatchItem",
           activeParamSwatch: "paramSwatch activeParamSwatch",
           notActiveParamSwatch: "paramSwatch",
         };
@@ -26,12 +29,14 @@ class ProductParams extends React.Component {
       case "dropCart":
         return {
           params: "cartItemParams",
-          productBrand: "",
-          productName: "",
+          productBrand: "cartItemName",
+          productName: "cartItemName",
           productPrice: "cartPriceParam",
           attributeName: "cartAttributeName",
+          attributeItem: "cartAttributeItem",
           activeParam: "cartParam cartActiveParam",
           notActiveParam: "cartParam",
+          paramSwatchItem: "cartParamSwatchItem",
           activeParamSwatch: "cartParamSwatch cartActiveParamSwatch",
           notActiveParamSwatch: "cartParamSwatch",
         };
@@ -43,8 +48,10 @@ class ProductParams extends React.Component {
           productName: "name",
           productPrice: "priceParam",
           attributeName: "attributeName",
+          attributeItem: "attributeItem",
           activeParam: "paramPage activeParam",
           notActiveParam: "paramPage",
+          paramSwatchItem: "paramSwatchItem",
           activeParamSwatch: "paramSwatch activeParamSwatch",
           notActiveParamSwatch: "paramSwatch",
         };
@@ -93,12 +100,12 @@ class ProductParams extends React.Component {
   renderAddToCartButton = () => {
     return (
       <button
-        disabled={!this.props.disabled}
+        disabled={this.props.disabled}
         className="addToCartBtn"
         type="submit"
         onClick={this.props.addToCart}
       >
-        ADD TO CART
+        add to cart
       </button>
     );
   };
@@ -128,10 +135,13 @@ class ProductParams extends React.Component {
             chooseParam={this.props.chooseParam}
           />
         )}
-        {this.props.page === "productPage" &&
-          this.renderPrice(this.props.page, styles)}
-        {this.props.page === "productPage" && this.renderAddToCartButton()}
-        {this.props.page === "productPage" && this.renderDescription()}
+        {this.props.page === "productPage" && (
+          <>
+            {this.renderPrice(this.props.page, styles)}
+            {this.renderAddToCartButton()}
+            {this.renderDescription()}
+          </>
+        )}
       </div>
     );
   }

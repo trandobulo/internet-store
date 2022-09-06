@@ -1,0 +1,28 @@
+query ($id: String!) {
+  product(id: $id) {
+    category
+    brand
+    id
+    gallery
+    name
+    description
+    attributes {
+      id
+      name
+      type
+      items {
+        displayValue
+        value
+        id
+      }
+    }
+    prices {
+      currency {
+        symbol
+        label
+      }
+      amount
+    }
+    inStock
+  }
+}

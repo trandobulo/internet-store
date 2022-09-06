@@ -1,8 +1,9 @@
 import React from "react";
-import CartItems from "../cartItems/CartItems.jsx";
+import CartItems from "../CartItems/CartItems.jsx";
 import { Link } from "react-router-dom";
 import getTotalPurchasesAmount from "../../utils/getTotalPurchasesAmount";
 import { ReactComponent as CartBtnIcon } from "../../svg/cartIcon.svg";
+import "./DropCart.css";
 
 class DropCart extends React.Component {
   constructor(props) {
@@ -36,9 +37,11 @@ class DropCart extends React.Component {
 
   purchasesAmount = () => {
     return (
-      <span>
+      <span className="cartTitle">
         My bag.{" "}
-        <span>{getTotalPurchasesAmount(this.props.purchases)} items</span>{" "}
+        <span className="cartTitleCount">
+          {getTotalPurchasesAmount(this.props.purchases)} items
+        </span>{" "}
       </span>
     );
   };

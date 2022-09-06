@@ -1,11 +1,15 @@
 import React from "react";
-import PLP from "./pages/ProductListPage";
-import Navigations from "./components/navigations/Navigations";
-import Currencies from "./components/currencies/Currencies";
-import PDP from "./pages/ProductPage";
-import DropCart from "./components/dropCart/DropCart";
-import CartPage from "./pages/CartPage";
+import ProductListPage from "./pages/ProductListPage/ProductListPage";
+import Navigations from "./components/Navigations/Navigations";
+import Currencies from "./components/Currencies/Currencies";
+import ProductPage from "./pages/ProductPage/ProductPage";
+import DropCart from "./components/DropCart/DropCart";
+import CartPage from "./pages/CartPage/CartPage";
 import { Switch, Route, Redirect } from "react-router-dom";
+import "./App.css";
+
+import client from "./apolloClient";
+import { loader } from "graphql.macro";
 
 class App extends React.Component {
   constructor(props) {
@@ -29,6 +33,15 @@ class App extends React.Component {
     this.handleViewBagBtn = this.handleViewBagBtn.bind(this);
   }
 
+  getProductInfo = (productId) => {
+    const query = loader("./graphql/getProductInfo.graphql");
+
+    return client.query({
+      query: query,
+      variables: { id: productId },
+    });
+  };
+
   switchCurrency(e) {
     this.setState({
       activeCurrency: e.currentTarget.dataset.symbol,
@@ -36,28 +49,43 @@ class App extends React.Component {
   }
 
   handleAddToCart(productInfo) {
-    const arr = this.state.cart.slice();
+    const arr = [...this.state.cart];
 
     const params = {};
 
+    const compareProductParams = (inCart, addToCart) => {
+      for (let key in addToCart) {
+        if (!inCart.hasOwnProperty(key)) {
+          return false;
+        }
+        if (inCart[key] !== addToCart[key]) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
     let isExist = arr.findIndex(
       (item) =>
-        JSON.stringify(item.product) ===
-          JSON.stringify(productInfo.activeProduct) &&
-        JSON.stringify(item.params) ===
-          JSON.stringify(productInfo.activeProductParams)
+        item.productId === productInfo.activeProductId &&
+        compareProductParams(item.params, productInfo.activeProductParams)
     );
 
     if (isExist >= 0) {
       arr[isExist].amount++;
+      this.setState({ cart: arr });
     } else {
-      arr.push({
-        productId: productInfo.activeProductId,
-        params: Object.assign(params, productInfo.activeProductParams),
-        amount: 1,
+      this.getProductInfo(productInfo.activeProductId).then((result) => {
+        arr.push({
+          productId: productInfo.activeProductId,
+          product: result.data.product,
+          params: Object.assign(params, productInfo.activeProductParams),
+          amount: 1,
+        });
+        this.setState({ cart: arr });
       });
     }
-    this.setState({ cart: arr });
   }
 
   handleChangeAmount(e) {
@@ -95,26 +123,38 @@ class App extends React.Component {
   }
 
   isCartOpenHandler() {
-    this.state.cart.length > 0 &&
-      this.setState({ isCartOpen: !this.state.isCartOpen });
+    this.setState({ isCartOpen: !this.state.isCartOpen });
   }
 
-  componentDidMount() {
-    const storage = JSON.parse(window.localStorage.getItem("cart"));
-    const currency = JSON.parse(window.localStorage.getItem("currency"));
+  readMemory() {
+    const storage = JSON.parse(window.localStorage.getItem("dataStorage"));
 
     this.setState({
-      cart: storage === null ? [] : storage,
-      activeCurrency: currency === null ? "$" : currency,
+      cart:
+        storage === null || storage.purchases === undefined
+          ? []
+          : storage.purchases,
+      activeCurrency:
+        storage === null || storage.currency === undefined
+          ? "$"
+          : storage.currency,
     });
   }
 
+  writeMemory() {
+    const dataStorage = {
+      purchases: this.state.cart,
+      currency: this.state.activeCurrency,
+    };
+    window.localStorage.setItem("dataStorage", JSON.stringify(dataStorage));
+  }
+
+  componentDidMount() {
+    this.readMemory();
+  }
+
   componentDidUpdate() {
-    window.localStorage.setItem("cart", JSON.stringify(this.state.cart));
-    window.localStorage.setItem(
-      "currency",
-      JSON.stringify(this.state.activeCurrency)
-    );
+    this.writeMemory();
   }
 
   render() {
@@ -157,14 +197,14 @@ class App extends React.Component {
               <Redirect to="/categories/all" />
             </Route>
             <Route exact path="/categories/:categoryId">
-              <PLP
+              <ProductListPage
                 currentCurrency={this.state.activeCurrency}
                 productCardOnClick={this.handleProductClick}
                 addToCart={this.handleAddToCart}
               />
             </Route>
             <Route path="/categories/:categoryId/products/:productId">
-              <PDP
+              <ProductPage
                 currentCurrency={this.state.activeCurrency}
                 addToCart={this.handleAddToCart}
               />

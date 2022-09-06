@@ -1,53 +1,30 @@
 import React from "react";
 import client from "../../apolloClient";
-import gql from "graphql-tag";
-import ProductCard from "../productCard/ProductCard";
+import { loader } from "graphql.macro";
+import ProductCard from "../ProductCard/ProductCard";
+import "./ProductList.css";
 
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { products: [] };
+    this.state = { products: [], isLoading: false };
   }
 
   getProducts = (activeCategory) => {
+    this.setState({ isLoading: true });
+
     client
       .query({
-        query: gql`
-          query ($category: String!) {
-            category(input: { title: $category }) {
-              products {
-                id
-                brand
-                gallery
-                name
-                attributes {
-                  id
-                  name
-                  type
-                  items {
-                    value
-                    id
-                    displayValue
-                  }
-                }
-                prices {
-                  currency {
-                    symbol
-                    label
-                  }
-                  amount
-                }
-                inStock
-              }
-            }
-          }
-        `,
+        query: loader("../../graphql/getProductList.graphql"),
         variables: { category: activeCategory },
       })
 
       .then((result) => {
-        this.setState({ products: result.data.category.products });
+        this.setState({
+          products: result.data.category.products,
+          isLoading: false,
+        });
       });
   };
 
@@ -75,7 +52,17 @@ class ProductList extends React.Component {
   };
 
   render() {
-    return <div className="productList">{this.renderProductCards()}</div>;
+    const loader = (
+      <div className="loaderContainer">
+        <div className="loader"></div>
+      </div>
+    );
+
+    return this.state.isLoading ? (
+      loader
+    ) : (
+      <div className="productList">{this.renderProductCards()}</div>
+    );
   }
 }
 

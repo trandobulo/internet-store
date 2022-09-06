@@ -2,6 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import client from "../../apolloClient";
 import { ReactComponent as CurrencyChevron } from "../../svg/currencyChevron.svg";
+import "./Currencies.css";
 
 class Currencies extends React.Component {
   constructor(props) {

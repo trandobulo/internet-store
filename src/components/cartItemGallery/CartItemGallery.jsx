@@ -1,6 +1,7 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { ReactComponent as ArrowIcon } from "../../svg/arrowIcon.svg";
+import "./CartItemGallery.css";
 
 class CartItemGallery extends React.Component {
   constructor(props) {
@@ -34,13 +35,16 @@ class CartItemGallery extends React.Component {
 
   renderGalleryImg = () => {
     return (
-      <Link to={`/categories/all/products/${this.props.id}`}>
+      <NavLink
+        className={"cartItemGalleryImgContainer"}
+        to={`/categories/all/products/${this.props.id}`}
+      >
         <img
           className="cartItemGalleryImg"
           src={this.props.images[this.state.index]}
           alt={this.props.id}
         ></img>
-      </Link>
+      </NavLink>
     );
   };
 

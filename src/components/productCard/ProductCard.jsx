@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import setDefaultProductParams from "../../utils/setDefaultProductParams";
 import { ReactComponent as CartIcon } from "../../svg/cartIcon.svg";
 import getPrice from "../../utils/getPrice";
+import "./ProductCard.css";
 
 class productCard extends React.Component {
   constructor(props) {
@@ -38,11 +39,12 @@ class productCard extends React.Component {
 
   renderProductCardImg = () => {
     return (
-      <div className="productCardImg">
+      <div className="productCardImgContainer">
         {!this.props.product.inStock && (
-          <div className="outOfStockLayer">OUT OF STOCK</div>
+          <div className="outOfStockLayer">out of stock</div>
         )}
         <img
+          className="productCardImg"
           src={this.props.product.gallery[0]}
           alt={`${this.props.product.brand} ${this.props.product.name}`}
         ></img>

@@ -1,158 +1,153 @@
-.cartItemsContainer{
-max-height: 416px;
-overflow-y: auto;
-overflow-x: hidden;
+.cartItemsContainer {
+  max-height: 416px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.cartItem{
-display: flex;
-justify-content: space-between;
-padding-top: 20px;
-padding-bottom:20px;
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.overlined{
-border-top: 1px solid  #E5E5E5;
-padding-top: 24px;
-padding-bottom: 24px;
+.overlined {
+  border-top: 1px solid #E5E5E5;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
-.underlined{
-border-bottom: 1px solid  #E5E5E5;
-margin-bottom: 32px;
+.underlined {
+  border-bottom: 1px solid #E5E5E5;
+  margin-bottom: 32px;
 }
 
 .changeAmount {
-display: flex;
-width: 24px;
-height: 24px;
-border: 1px solid;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-background-color: #FFFFFF;
-margin-right: 10px;
+  display: flex;
+  width: 24px;
+  height: 24px;
+  border: 1px solid;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #FFFFFF;
 }
 
 .cartChangeAmount {
-display: flex;
-width: 45px;
-height: 45px;
-border: 1px solid;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-margin-right: 10px;
-background-color: #FFFFFF;
+  display: flex;
+  width: 45px;
+  height: 45px;
+  border: 1px solid;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #FFFFFF;
 }
 
 .cartItemCount {
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 8px;
 }
 
-.cartItemBlock{
-position: relative;
-display: flex;
+.cartItemBlock {
+  position: relative;
+  display: flex;
+  height: inherit;
 }
 
-.cartItemBlock > a {
-padding-right: 10px;
-width: 121px;
-height: 190px;
+.cartItemImgContainer {
+  width: 121px;
+  height: inherit;
 }
 
-.cartItemImg{
-width: inherit;
-object-fit: cover;
-height: inherit;
+.cartItemImg {
+  width: inherit;
+  object-fit: contain;
+  height: 100%;
 }
 
-.cartItemImg:hover{
-opacity: 0.8;
+.cartItemImg:hover {
+  opacity: 0.8;
 }
 
-.cartItemGalleryBlock{
-position: relative;
-display: flex;
+.cartItemGalleryBlock {
+  position: relative;
+  display: flex;
 }
 
-.cartItemGalleryBlock > a {
-width: 200px;
-height: 100%;
+.cartItemGalleryImgContainer {
+  width: inherit;
+  height: 100%;
 }
 
-.cartSummary{
-height: 159px;
-width: 279px;
+.cartSummary {
+  height: 159px;
+  width: 279px;
 }
 
-.cartSummaryInfo{
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-font-size: 24px;
+.cartSummaryInfo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-size: 24px;
 }
 
-.cartSummaryInfo > div {
-margin-right: 10px;
+.cartSummaryInfoContainer {
+  margin-right: 10px;
 }
 
-.cartSummaryInfo > div > p {
-padding-bottom: 8px;
-margin: 0px;
+.cartSummaryText {
+  text-transform: capitalize;
+  padding-bottom: 8px;
+  margin: 0px;
 }
 
-.cartSummaryNumbers{
-font-weight: 700;
+.cartSummaryNumbers {
+  font-weight: 700;
+  padding-bottom: 8px;
 }
 
-.cartSummaryButton{
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-font-size: 14px;
-font-weight: 600;
-width: 100%;
-height: 43px;
-border: none;
-color: #FFFFFF;
-background: #5ECE7B;
-margin-top: 8px;
+.cartSummaryButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Raleway';
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  height: 43px;
+  border: none;
+  color: #FFFFFF;
+  background: #5ECE7B;
+  margin-top: 8px;
+  text-transform: uppercase;
+
 }
 
-.cartSummaryButton:hover{
-background-color: #1eb446;
+.cartSummaryButton:hover {
+  background-color: #1eb446;
 }
 
-.totalPrice{
-font-weight: 500;
-margin-bottom: 30px;
-font-family: "Roboto";
-padding: 10px 4px 0px 0px;
-display: flex;
-justify-content: space-between;
+.totalPrice {
+  font-weight: 500;
+  margin-bottom: 30px;
+  font-family: "Roboto";
+  padding: 10px 4px 0px 0px;
+  display: flex;
+  justify-content: space-between;
+  text-transform: capitalize;
 }
 
-.totalPriceSum{
-font-weight: 700;
-font-family: 'Raleway', sans-serif;
+.totalPriceSum {
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
 }
 
-.loader {
-border: 8px solid #f3f3f3;
-border-top: 8px solid #5ECE7B;
-border-radius: 50%;
-width: 30px;
-height: 30px;
-animation: spin 2s linear infinite;
-}
-
-.loaderContainer{
-display: flex;
-justify-content: center;
-margin-bottom: 30px;
+.emptyCartMsg {
+  padding-bottom: 30px;
+  margin: 0px;
 }

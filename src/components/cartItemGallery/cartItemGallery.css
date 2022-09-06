@@ -1,36 +1,37 @@
-.cartItemGalleryImg{
-object-fit: cover;
-width: 200px;
-height: inherit;
+.cartItemGalleryImg {
+  object-fit: contain;
+  width: 200px;
+  height: inherit;
 }
 
-.cartItemGalleryImg:hover{
-opacity: 0.8;
+.cartItemGalleryImg:hover {
+  opacity: 0.8;
 }
 
 .cartItemGalleryBtn {
-display: flex;
-align-items: center;
-justify-content: center;
-height: 24px;
-width: 24px;
-background-color: #000;
-opacity: 0.73;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  background-color: #000;
+  opacity: 0.73;
 }
 
-.cartItemGalleryBtn:hover{
-opacity: 1;
-cursor: pointer;
+.cartItemGalleryBtn:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .next {
-position: absolute;
-bottom: 16px;
-right: 16px;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
 }
 
 .prev {
-transform: rotate(180deg);
-position: absolute;
-bottom: 16px;
-right: 48px;}
+  transform: rotate(180deg);
+  position: absolute;
+  bottom: 16px;
+  right: 48px;
+}

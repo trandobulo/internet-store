@@ -1,0 +1,42 @@
+.productPage {
+  display: flex;
+  width: 1240px;
+}
+
+.galleryItems {
+  display: flex;
+  flex-direction: column;
+  width: 103.3px;
+  height: 511px;
+  margin-right: 19px;
+  overflow-y: auto;
+  cursor: pointer;
+}
+
+.galleryThumbnail {
+  object-fit: cover;
+  width: 79px;
+  height: 80px;
+  margin-bottom: 40px;
+}
+
+.galleryThumbnail:hover {
+  opacity: 0.8;
+}
+
+.activePhotoContainer {
+  position: relative;
+  width: 610px;
+  height: 511px;
+}
+
+.activePhoto {
+  object-fit: contain;
+  width: 610px;
+  height: 511px;
+}
+
+.gallery {
+  display: flex;
+  margin-right: 100px;
+}
