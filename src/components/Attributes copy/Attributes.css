@@ -1,0 +1,105 @@
+.attributeName {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.attributeItem {
+  font-family: 'Source Sans Pro', sans-serif;
+  display: flex;
+  margin: 5px 0px 24px 0px;
+  align-items: center;
+}
+
+.param {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  height: 45px;
+  width: 63px;
+  border: 1px solid #1D1F22;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.param:hover {
+  background-color: #1D1F22;
+  color: #ffffff;
+}
+
+.activeParam {
+  background-color: #1D1F22;
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+.paramSwatchItem {
+  height: 32px;
+  width: 32px;
+}
+
+.paramSwatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  margin-right: 8px;
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+
+.activeParamSwatch {
+  border: 1px solid #5ece7b;
+}
+
+.cartAttributeItem {
+  display: flex;
+  margin: 8px 0px;
+  align-items: center;
+}
+
+.cartAttributeName {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.cartParam {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  height: 24px;
+  width: 24px;
+  border: 1px solid #1D1F22;
+  font-size: 8px;
+  font-weight: 400;
+}
+
+.cartActiveParam {
+  background-color: #1D1F22;
+  color: #ffffff;
+}
+
+.cartParamSwatchItem {
+  height: 16px;
+  width: 16px;
+}
+
+.cartParamSwatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  margin-right: 8px;
+}
+
+.cartActiveParamSwatch {
+  border: 1px solid #5ece7b;
+}
