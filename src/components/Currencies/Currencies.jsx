@@ -32,7 +32,7 @@ class Currencies extends React.Component {
       })
 
       .then((result) => {
-        this.setState({ currencies: result });
+        this.setState({ currencies: result.data.currencies });
       });
 
   handleClickOutside(event) {
@@ -70,20 +70,28 @@ class Currencies extends React.Component {
   };
 
   currencyList = () => {
-    const list = this.state.currencies.data.currencies.map(
-      (currency, index) => (
-        <div
-          className="currenciesListItem"
-          key={index}
-          onClick={this.props.onclick}
-          data-symbol={currency.symbol}
-        >
-          {`${currency.symbol} ${currency.label}`}
-        </div>
-      )
-    );
+    const list = () => {
+      if (this.state.currencies.length > 0) {
+        return this.state.currencies.map((currency, index) => (
+          <div
+            className="currenciesListItem"
+            key={index}
+            onClick={this.props.onclick}
+            data-symbol={currency.symbol}
+          >
+            {`${currency.symbol} ${currency.label}`}
+          </div>
+        ));
+      }
 
-    return <div className="currenciesList">{list}</div>;
+      return (
+        <div className="loaderContainer">
+          <div className="loader"></div>
+        </div>
+      );
+    };
+
+    return <div className="currenciesList">{list()}</div>;
   };
 
   render() {

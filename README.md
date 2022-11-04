@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Before intalling this project you need to clone and intall [endpoint](https://github.com/trandobulo/internet-store-endpoint), or you could use its [deployed version](https://treasure-fancy-lasagna.glitch.me/)
+
 ## Available Scripts
 
 In the project directory, you can run:
