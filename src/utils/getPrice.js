@@ -11,4 +11,3 @@ const getPrice = (product, currency) => {
 
 export default getPrice;
 
-//123
